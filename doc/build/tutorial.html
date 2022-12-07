@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial &mdash; uq4cgDNA  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Theory" href="theory.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> uq4cgDNA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#import">Import</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#input-and-output-file-settings">Input and Output file Settings:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mcmc-sampler-settings">MCMC Sampler Settings:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#proposal-settings">Proposal Settings:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#initialization">Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run">Run</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">uq4cgDNA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>The following section serves as a short introduction to the workflow of the uq4cgDNA
+package. For more detailed elaborations on the underlying implementation, please
+refer to the <a class="reference internal" href="api.html"><span class="doc">API</span></a> documentation. The presented code corresponds to the <cite>main.py</cite>
+file, which can simple be executed by a suitable Python editor.</p>
+<hr class="docutils" />
+<div class="section" id="import">
+<h2>Import<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h2>
+<p>uq4cgDNA relies on modular construction principles, sectioning the implementation into
+five main components:</p>
+<p><code class="docutils literal notranslate"><span class="pre">IOHandler:</span></code> This module provides all functionalities for input and output from and to
+files and to the console. It is therefore widely utilized by the other modules.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cgDNAModel:</span></code> The connection between the generic Bayesian inferrence/sampling procedure
+and cgDNA-specific internals is implemented here.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Proposal:</span></code> This module realizes a generic Preconditioned Crank-Nicholson Random Walk
+proposal function. Future work will extend this module to other schemes.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Posterior:</span></code> The posterior distribution implemented in this module generates the output
+samples from the Bayesian inferrence procedure</p>
+<p><code class="docutils literal notranslate"><span class="pre">MCMCSampler:</span></code> The MCMC module contains an implementation of the Metropolis-Hastings
+algorithm relying on the previous modules.</p>
+<p>These modules need to be imported from the package. Please note that the uq4cgDNA path
+generally needs to be known to the interpreter or has to be specified within the import
+statements:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">uq4cgDNA</span> <span class="kn">import</span> <span class="n">io_handler</span>
+<span class="kn">from</span> <span class="nn">uq4cgDNA</span> <span class="kn">import</span> <span class="n">cgdna_model</span>
+<span class="kn">from</span> <span class="nn">uq4cgDNA</span> <span class="kn">import</span> <span class="n">proposal</span>
+<span class="kn">from</span> <span class="nn">uq4cgDNA</span> <span class="kn">import</span> <span class="n">posterior</span>
+<span class="kn">from</span> <span class="nn">uq4cgDNA</span> <span class="kn">import</span> <span class="n">mcmc</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<p>uq4cgDNA offers a variety of settings that can be utilized to customize the computation.
+These settings can mainly be subdivided into three groups:</p>
+<div class="section" id="input-and-output-file-settings">
+<h3>Input and Output file Settings:<a class="headerlink" href="#input-and-output-file-settings" title="Permalink to this headline">¶</a></h3>
+<p>These settings control the files that data is read from and written to, respectively.
+Additionally, they contain options regarding printing and logging. Specifically, the
+following variables need to be specified within a dictionary:</p>
+<ol class="arabic simple">
+<li><p><em>Molecular dynamics data file names:</em> Files containing DNA Sequences along with their
+shape and stiffness arrays</p></li>
+<li><p><em>cgDNA data file names:</em> Files containing the cgDNA parameter set encoding and
+shape/stiffness parameter arrays for the different monomers and dimers</p></li>
+<li><p><em>Matrix file names:</em> Files containing the covariance matrices for prior and proposal
+distributions</p></li>
+<li><p><em>Output and logging file names:</em> Destination for output samples and logging during
+computation. Additionally, flags for logging and output to screen can be set</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fileSettings</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="c1"># MD Data</span>
+     <span class="s2">&quot;File_MD_Sequences&quot;</span><span class="p">:</span>                <span class="s2">&quot;data/Sequences.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_MD_Shapes&quot;</span><span class="p">:</span>                   <span class="s2">&quot;data/Shapes_MD.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_MD_Stiffnesses&quot;</span><span class="p">:</span>              <span class="s2">&quot;data/Stiffness_MD.txt&quot;</span><span class="p">,</span>
+     <span class="c1"># cgDNA Data</span>
+     <span class="s2">&quot;File_Encoding&quot;</span><span class="p">:</span>                    <span class="s2">&quot;data/Encoding.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_cgDNA_OneMerSig&quot;</span><span class="p">:</span>             <span class="s2">&quot;data/OneMerSig.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_cgDNA_OneMerStiffness&quot;</span><span class="p">:</span>       <span class="s2">&quot;data/OneMerStiff.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_cgDNA_TwoMerSig&quot;</span><span class="p">:</span>             <span class="s2">&quot;data/TwoMerSig.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_cgDNA_TwoMerStiffness&quot;</span><span class="p">:</span>       <span class="s2">&quot;data/TwoMerStiff.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_Proposal_OneMerSig&quot;</span><span class="p">:</span>          <span class="s2">&quot;data/OneMerSig.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_Proposal_OneMerStiffness&quot;</span><span class="p">:</span>    <span class="s2">&quot;data/OneMerStiff.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_Proposal_TwoMerSig&quot;</span><span class="p">:</span>          <span class="s2">&quot;data/TwoMerSig.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_Proposal_TwoMerStiffness&quot;</span><span class="p">:</span>    <span class="s2">&quot;data/TwoMerStiff.txt&quot;</span><span class="p">,</span>
+     <span class="c1"># Hessian Matrix</span>
+     <span class="s2">&quot;File_Prior_Matrix&quot;</span><span class="p">:</span>                <span class="s2">&quot;data/Hessian.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_Proposal_Matrix&quot;</span><span class="p">:</span>             <span class="s2">&quot;data/Hessian.txt&quot;</span><span class="p">,</span>
+     <span class="c1"># Output</span>
+     <span class="s2">&quot;File_Logs&quot;</span><span class="p">:</span>                        <span class="s2">&quot;log.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;File_Output&quot;</span><span class="p">:</span>                      <span class="s2">&quot;Output.txt&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;Logging&quot;</span><span class="p">:</span>                          <span class="kc">True</span><span class="p">,</span>
+     <span class="s2">&quot;Printing&quot;</span><span class="p">:</span>                         <span class="kc">True</span>
+     <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mcmc-sampler-settings">
+<h3>MCMC Sampler Settings:<a class="headerlink" href="#mcmc-sampler-settings" title="Permalink to this headline">¶</a></h3>
+<p>These settings allow control over the Sampler itself. Again, the necessary variables
+need to be specified within a dictionary:</p>
+<ol class="arabic simple">
+<li><p>Number of samples to be computed as usable output</p></li>
+<li><p>Number of burn-in samples (these samples will be disregarded)</p></li>
+<li><p>Mean batch size: Size of sample batches whose mean values (more precisely their
+difference) can be used as a convergence check</p></li>
+<li><p>Statistics computation: Number of steps until statistics are re-computed</p></li>
+<li><p>Output: Number of steps until output is printed to screen/log file</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mcmcSettings</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s2">&quot;Number_of_Samples&quot;</span><span class="p">:</span>                <span class="mi">3</span><span class="p">,</span>
+         <span class="s2">&quot;Burn_in_Period&quot;</span><span class="p">:</span>                   <span class="mi">0</span><span class="p">,</span>
+         <span class="s2">&quot;Mean_Batch_Size&quot;</span><span class="p">:</span>                  <span class="mi">5</span><span class="p">,</span>
+         <span class="s2">&quot;Statistics_Interval&quot;</span><span class="p">:</span>              <span class="mi">10</span><span class="p">,</span>
+         <span class="s2">&quot;Output_Interval&quot;</span><span class="p">:</span>                  <span class="mi">10</span><span class="p">,</span>
+         <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="proposal-settings">
+<h3>Proposal Settings:<a class="headerlink" href="#proposal-settings" title="Permalink to this headline">¶</a></h3>
+<p>For the current implementation of the pCN proposal, only one settings has to be specified,
+namely the parameter determining the asymmetry of the random walk.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cnParameter</span> <span class="o">=</span> <span class="mf">1e-3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="initialization">
+<h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h2>
+<p>Given these settings, it is quite straight forward to start a computation. Firstly,
+the corresponding objects of the imported modules need to be initialized.
+The <code class="docutils literal notranslate"><span class="pre">IOHandler</span></code> object is constructed using the file settings.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">IOHandler</span> <span class="o">=</span> <span class="n">io_handler</span><span class="o">.</span><span class="n">IOHandler</span><span class="p">(</span><span class="n">fileSettings</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">cgDNAModel</span></code> class is invoked using the <code class="docutils literal notranslate"><span class="pre">IOHandler</span></code> object to load the necessary
+cgDNA data. Additionally, the mode <em>cgdna</em> clarifies that the cgDNA parameter set
+(not the proposal set) is used for initialization. The <code class="docutils literal notranslate"><span class="pre">cgDNAModel</span></code> object can also
+be initialized by a reduced parameter set vector.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cgDNAModel</span> <span class="o">=</span> <span class="n">cgdna_model</span><span class="o">.</span><span class="n">cgDNAModel</span><span class="p">(</span><span class="n">IOHandler</span><span class="p">,</span> <span class="s2">&quot;cgdna&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In contrast to the previous objects, the <code class="docutils literal notranslate"><span class="pre">Proposal</span></code> is generated by a factory method,
+which allows greater flexibility regarding different initialization strategies.
+The arguments for an initialization from file are a valid <code class="docutils literal notranslate"><span class="pre">IOHandler</span></code> object and
+the pCN parameter. Alternatively, the proposal can be initialized with identity
+covariance matrix.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Proposal</span> <span class="o">=</span> <span class="n">proposal</span><span class="o">.</span><span class="n">pCNProposal</span><span class="o">.</span><span class="n">from_file_cov</span><span class="p">(</span><span class="n">IOHandler</span><span class="p">,</span> <span class="n">cnParameter</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Posterior</span></code> object is constructed from valid <code class="docutils literal notranslate"><span class="pre">IOHandler</span></code> and <code class="docutils literal notranslate"><span class="pre">cgDNAModel</span></code>
+objects.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Posterior</span> <span class="o">=</span> <span class="n">posterior</span><span class="o">.</span><span class="n">Posterior</span><span class="p">(</span><span class="n">IOHandler</span><span class="p">,</span> <span class="n">cgDNAModel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Lastly, the <code class="docutils literal notranslate"><span class="pre">MCMCSampler</span></code> is generated with the corresponding settings, along with
+<code class="docutils literal notranslate"><span class="pre">cgDNAModel</span></code> and <code class="docutils literal notranslate"><span class="pre">Posterior</span></code> objects that provide the initial candidate and
+corresponding probability values. Note that the cgDNA model is updated to contain the
+initial candidate set.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cgDNAModel</span><span class="o">.</span><span class="n">update_from_file</span><span class="p">(</span><span class="n">IOHandler</span><span class="p">,</span> <span class="s2">&quot;proposal&quot;</span><span class="p">)</span>
+<span class="n">Sampler</span> <span class="o">=</span> <span class="n">mcmc</span><span class="o">.</span><span class="n">MCMCSampler</span><span class="p">(</span><span class="n">mcmcSettings</span><span class="p">,</span> <span class="n">cgDNAModel</span><span class="p">,</span> <span class="n">Posterior</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="run">
+<h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h2>
+<p>The sampler is invoked via a single command. Depending on the output flags, the resulting
+samples are stored in the output file and information is printed to the screen and the
+specified log file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">IOHandler</span><span class="p">,</span> <span class="n">cgDNAModel</span><span class="p">,</span> <span class="n">Proposal</span><span class="p">,</span> <span class="n">Posterior</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="theory.html" class="btn btn-neutral float-left" title="Theory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sebastian Krumscheidt, Maximilian Kruse
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

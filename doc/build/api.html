@@ -1,0 +1,1999 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API &mdash; uq4cgDNA  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> uq4cgDNA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-io_handler">IOHandler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-cgdna_model">cgDNAModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-proposal">Proposal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-posterior">Posterior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcmc">MCMCSampler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-test">Testing</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">uq4cgDNA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<p>This section contains a reference for the uq4cgDNA source code generated from
+the implementation docstrings.</p>
+<hr class="docutils" />
+<div class="section" id="module-io_handler">
+<span id="iohandler"></span><h2>IOHandler<a class="headerlink" href="#module-io_handler" title="Permalink to this headline">¶</a></h2>
+<p>I/O Handler of the uq4cgDNA Framework</p>
+<p>This module provides the functionalities for reading data from and writing
+data to files. It consists of an IOHandler class whose objects are utilized for
+the initialization of uq4cgDNA classes. Input reading capabilities include
+MD data, cgDNA parameter sets, prior and proposal distribution matrices and
+sequence information.
+All input files are assumed to be formatted as txt files in the following form:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Sequences: One line, comma-separated list of strings</p></li>
+<li><p>Shapes: Vertical concatenation of all column vectors</p></li>
+<li><p>Stiffnesses: Vertical concatenation of all matrices</p></li>
+</ul>
+</div></blockquote>
+<p>Additionally, the IOHandler provides output writing capabilities for logging
+and result storage. The output files are again produced as txt files. Next to
+a customized event handler, the IOhandler also provides the functionality of
+controlling the logging.</p>
+<p>Author Sebastian Krumscheidt, Maximilian Kruse
+Date 06.06.2020</p>
+<dl class="py class">
+<dt id="io_handler.IOHandler">
+<em class="property">class </em><code class="sig-prename descclassname">io_handler.</code><code class="sig-name descname">IOHandler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>I/O handler class for the uq4cgDNA framework.</p>
+<p>This class provides the functionalities for the io_handler module. Objects
+of this class can be given to the constructor of other uq4cgDNA classes to
+initialize their internal structures from files.</p>
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">File names pointing to MD data</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">File names pointing to cgDNA optimization output</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">File names pointing to cgDNA proposal parameters</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">File names pointing to proposal and prior matrices</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">File names pointing to output and logging files</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Logging flag</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor from settings dictionary</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.__assemble_from_file_static">
+<code class="sig-name descname">__assemble_from_file_static</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fileName</span></em>, <em class="sig-param"><span class="n">numArrays</span></em>, <em class="sig-param"><span class="n">arraySize</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.__assemble_from_file_static" title="Permalink to this definition">¶</a></dt>
+<dd><p>Auxiliary routine for reading array lists of fixed structure</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.__assemble_from_file_dynamic">
+<code class="sig-name descname">__assemble_from_file_dynamic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fileName</span></em>, <em class="sig-param"><span class="n">sequenceList</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.__assemble_from_file_dynamic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Auxiliary routine for reading array lists of varying structure</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.__read_array">
+<code class="sig-name descname">__read_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fileName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.__read_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Auxiliary routine for reading single array</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.__read_sequence_list">
+<code class="sig-name descname">__read_sequence_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.__read_sequence_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Auxiliary routine for reading DNA sequence list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.read_encoding">
+<code class="sig-name descname">read_encoding</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.read_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in monomer and dimer keys/order</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.read_md_data">
+<code class="sig-name descname">read_md_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.read_md_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in data from MD simulations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.read_cgDNA_data">
+<code class="sig-name descname">read_cgDNA_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.read_cgDNA_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in parameter set from cgDNA optimization procedure or proposal</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.read_prior_matrix">
+<code class="sig-name descname">read_prior_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.read_prior_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in dense matrix for Gaussian prior</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.read_proposal_matrix">
+<code class="sig-name descname">read_proposal_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.read_proposal_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read in dense matrix for proposal covariance</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.read_sequence_information">
+<code class="sig-name descname">read_sequence_information</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.read_sequence_information" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in sequence lengths</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.start_recording">
+<code class="sig-name descname">start_recording</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.start_recording" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialized context manager for output and log files</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.log">
+<code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes input to log file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler.output">
+<code class="sig-name descname">output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes input to output file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler._IOHandler__assemble_from_file_dynamic">
+<code class="sig-name descname">_IOHandler__assemble_from_file_dynamic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fileName</span></em>, <em class="sig-param"><span class="n">sequenceList</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler._IOHandler__assemble_from_file_dynamic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in lists of arrays corresponding to DNA sequence list.</p>
+<p>The corresponding array size is assumed to be 12*n-6, where n is the
+length of the sequence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fileName</strong> (<em>string</em>) – File to read from</p></li>
+<li><p><strong>sequenceList</strong> (<em>list of character lists</em>) – Sequence list determining number and size of arrays</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – Checks if file is existent</p></li>
+<li><p><strong>IndexError</strong> – Checks if correct sizes are chosen</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>arrayList</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of numpy float arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler._IOHandler__assemble_from_file_static">
+<code class="sig-name descname">_IOHandler__assemble_from_file_static</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fileName</span></em>, <em class="sig-param"><span class="n">numArrays</span></em>, <em class="sig-param"><span class="n">arraySize</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler._IOHandler__assemble_from_file_static" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in lists of arrays of pre-defined size and list length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fileName</strong> (<em>string</em>) – File to read from</p></li>
+<li><p><strong>numArrays</strong> (<em>integer</em>) – Number of arrays to be expected in the file</p></li>
+<li><p><strong>arraySize</strong> (<em>integer</em>) – Size of each array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – Checks if file is existent</p></li>
+<li><p><strong>IndexError</strong> – Checks if correct sizes are given</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>arrayList</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List of numpy float arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler._IOHandler__read_array">
+<code class="sig-name descname">_IOHandler__read_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fileName</span></em><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler._IOHandler__read_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read in single array (matrix or vector) of arbitrary size</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fileName</strong> (<em>string</em>) – File to read from</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – Checks if file is existent</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="io_handler.IOHandler._IOHandler__read_sequence_list">
+<code class="sig-name descname">_IOHandler__read_sequence_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#io_handler.IOHandler._IOHandler__read_sequence_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read in DNA sequence list</p>
+<p>The DNA sequence list is a list of string arrays that are not comma-
+separated. This procedure is performed here. The resulting structure
+is a list of lists containing the DNA bases for all sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>FileNotFoundError</strong> – Checks if file is existent</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List of lists, containing strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id0">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor: Initializes file names for input and output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>settings</strong> (<em>dict</em>) – Input and output file names/directories, logging/printing flags</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>KeyError</strong> – Check if all mandatory settings are given</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="io_handler.IOHandler.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#io_handler.IOHandler.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id1">
+<code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>uq4cgDNA logger</p>
+<p>String messages given to this file are written to the console and
+(if logging is activated) to the specified logfile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>string</em>) – Message to be logged/displayed</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>OSError</strong> – Checks for error during I/O procedure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id2">
+<code class="sig-name descname">output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">resultArray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>uq4cgDNA output writer</p>
+<p>This function writes the given MCMC samples to a file. One result is
+stored per line. No whitespace is left between the lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>resultArray</strong> (<em>Given MCMC sample</em>) – 1D numpy float array</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>OSError</strong> – Checks for error during writting procedure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id3">
+<code class="sig-name descname">read_cgDNA_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the cgDNA parameter set from files.</p>
+<p>For the cgDNA Model the obtained vectors and matrices
+always have dimension 6/6x6 (monomer) and 18/18x18 (dimer).
+The files are assumed to contain all parameters, meaning that one
+obtains four monomer and 16 dimer structures for each parameter.
+The function has two different modes, namely ‘cgdna’ and ‘proposal’.
+Depending on the mode, the data is read from the cgdna or proposal
+files (these files might coincide).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>string</em>) – ‘cgdna’ or ‘proposal’</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Checks mode validity</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>sigmaOneMer</strong> (<em>List of 1D numpy float arrays</em>) – List of monomer sigma vectors</p></li>
+<li><p><strong>sigmaTwoMer</strong> (<em>List of 1D numpy float arrays</em>) – List of dimer sigma vectors</p></li>
+<li><p><strong>stiffnessOneMer</strong> (<em>List of 2D numpy float arrays</em>) – List of monomer K matrices</p></li>
+<li><p><strong>stiffnessTwoMer</strong> (<em>List of 2D numpy float arrays</em>) – List of dimer K matrices</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id4">
+<code class="sig-name descname">read_encoding</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in the monomer/dimer encodings</p>
+<p>The encoding is the order of monomer/dimer letters corresponding to
+the cgdna parameter set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>FileNotFoundError</strong> – Checks if encoding file exists</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>oneMerKeys</strong> (<em>List of strings</em>) – Monomer encoding</p></li>
+<li><p><strong>twoMerKeys</strong> (<em>List of strings</em>) – Dimer encoding</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id5">
+<code class="sig-name descname">read_md_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads MD data from previously defined files.</p>
+<p>All vectors should have size 12*n-6 and all matrices
+(12*n-6)x(12*n-6), where n is the number of  sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>sequenceList</strong> (<em>List of strings</em>) – List of all sequences</p></li>
+<li><p><strong>shapeVecs</strong> (<em>List of 1D numpy float arrays</em>) – MD shape vectors for all sequences</p></li>
+<li><p><strong>stiffnessMatrices</strong> (<em>List of 2D numpy float arrays</em>) – Sparse MD stiffness matrices for all sequences in CSC format</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id6">
+<code class="sig-name descname">read_prior_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in (dense) matrix for Gaussian prior.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>priorMatrix</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>2D numpy float array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id7">
+<code class="sig-name descname">read_proposal_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in (dense) matrix for proposal covariance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>covarianceMatrix</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>2D numpy float array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id8">
+<code class="sig-name descname">read_sequence_information</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<dd><p>Small auxiliary routine for prior information on MD sequences</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>seqLengths</strong> – Lengths of the given MD sequences</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List of integers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id9">
+<code class="sig-name descname">start_recording</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dd><p>Context manager for output and logging</p>
+<p>This function provides a context manager for the output and logging
+files for the uq4cgDNA computations. The opened files can be written
+to with the log() and output() functions given the context. The files
+are opened in append mode, so that existing data is not overwritten.
+Also note that the output of the computations is always written to a
+files, whereas the activation of logging can be determined by the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>OSError</strong> – Checks for problems during file opening</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="module-cgdna_model">
+<span id="cgdnamodel"></span><h2>cgDNAModel<a class="headerlink" href="#module-cgdna_model" title="Permalink to this headline">¶</a></h2>
+<p>cgDNA model file of the uq4cgDNA Framework</p>
+<p>This module serves as a wrapper for cgDNA-specific tasks within the framework.
+All data manipulations not part of generic linear algebra routines are
+encapsulated in the cgDNAModel class. The cgDNA structures, meaning the
+shape vectors and stiffness matrices are stored in two forms:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Reduced parameter vector only holding 2 independent monomers and 10
+independent dimer pairs. Moreover, only the upper triangular part
+(including the diagonal) is stored for the symmetric stiffness matrices.
+This reduced form can be utilized for generic algebraic computations and
+is used in the cgDNA-independent part of the UQ framework</p></li>
+<li><p>Full representation of all for monomers and 16 dimer pairs. This
+representation is used for the assembly of the cgDNA model matrix and
+vector for a given sequence.</p></li>
+</ol>
+</div></blockquote>
+<p>Note that both formulations are equivalent and can be easily converted into
+each other. Particularly, the complementary monomers and dimer pairs can be
+reconstructed by a simple matrix transformation.</p>
+<dl class="simple">
+<dt>The cgDNAModel class provides the following functionalities for the given data:</dt><dd><ul class="simple">
+<li><p>Inference of all data structures from given file (with the help of the
+IOHandler class). This includes the transformation between the different
+formulations</p></li>
+<li><p>Checking for “positiveness” of the given parameter set. This property is
+necessary for the set to be valid</p></li>
+<li><p>Assembly of the cgDNA model given a specific sequence</p></li>
+</ul>
+</dd>
+<dt>IMPORTANT: It is assumed that the encoding of the monomer and dimer blocks is</dt><dd><p>given such that the first 10 dimers constitute and independent set
+and dimers 5-10 are complementary to 11-16.</p>
+</dd>
+</dl>
+<p>Author Sebastian Krumscheidt, Maximilian Kruse
+Date 14.06.2020</p>
+<dl class="py class">
+<dt id="cgdna_model.cgDNAModel">
+<em class="property">class </em><code class="sig-prename descclassname">cgdna_model.</code><code class="sig-name descname">cgDNAModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em>, <em class="sig-param"><span class="n">initArg</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>cgDNAModel class for the uq4cgDNA framework.</p>
+<p>This class provides the functionalities for the cgdna_model module. Objects
+of this class serve as a junction between the generic part of the
+uncertainty quantification framework and cgDNA-specific computations</p>
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Dictionary for the mapping of different monomers/dimers</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>strings, integers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Lists of arrays for monomer/dimer shapes and stiffnesses</code></dt>
+<dd><p>1/2D numpy float arrays</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Transformation matrix for complementary monomers/dimers</code></dt>
+<dd><p>2D numpy float array</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Reduced parameter vector</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>1D numpy float array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Supplementary matrix indices and buffer</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>1/2D numpy float arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up object structures</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.__setup_model_structure">
+<code class="sig-name descname">__setup_model_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxSequenceLength</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.__setup_model_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes index arrays for cgDNA model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.__setup_transformation_matrix">
+<code class="sig-name descname">__setup_transformation_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.__setup_transformation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes transformation matrices for complementary structures</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.__complement_sequences">
+<code class="sig-name descname">__complement_sequences</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.__complement_sequences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes complementary monomers and dimers</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.update_from_file">
+<code class="sig-name descname">update_from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em>, <em class="sig-param"><span class="n">mode</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.update_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates structures from file (cgDNA set or other proposal)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.update_from_vector">
+<code class="sig-name descname">update_from_vector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.update_from_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates structures from reduced parameter vector</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.assemble_model">
+<code class="sig-name descname">assemble_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sequence</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.assemble_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds cgDNA Model for given sequence</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.get_parameter_vector">
+<code class="sig-name descname">get_parameter_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.get_parameter_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns reduced parameter vector</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.get_parameter_arrays">
+<code class="sig-name descname">get_parameter_arrays</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.get_parameter_arrays" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns parameter arrays</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id10">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em>, <em class="sig-param"><span class="n">initArg</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Constructor: Initializes all pre-computable structures</dt><dd><ul class="simple">
+<li><p>Mapping from sequence letters to arrays</p></li>
+<li><p>Array lists for cgDNA structures</p></li>
+<li><p>Supplementary index structures for format conversion</p></li>
+<li><p>Index arrays for cgDNA model matrix and vector</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>IOHandler</strong> (<em>IOHandler class object</em>) – </p></li>
+<li><p><strong>initArg</strong> (<em>1D numpy float array</em><em> or </em><em>string</em>) – Depending on the type of the argument, the model is initialized
+from file or from a reduced parameter vector</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="cgdna_model.cgDNAModel.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#cgdna_model.cgDNAModel.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel._cgDNAModel__complement_sequences">
+<code class="sig-name descname">_cgDNAModel__complement_sequences</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel._cgDNAModel__complement_sequences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes complementary data structures</p>
+<p>Routine to reconstruct the full parameterset from two monomer and
+10 dimer arrays. The complementary arrays (4 monomer, 6 dimer) can be
+obtaines from simple algebraic manipulations involivng the transfor-
+mation matrix E. Here it is assumed that the encoding is such that the
+dimers 5-10 are complementary to 11-16.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel._cgDNAModel__setup_model_structure">
+<code class="sig-name descname">_cgDNAModel__setup_model_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxSequenceLength</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel._cgDNAModel__setup_model_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes index arrays for the cgDNA model matrix and vector</p>
+<p>This function contains one of the core routines of the cgDNA model.
+It pre-computes the indices of the monomer and dimer blocks in the
+global model matrix and vector. Since all cgDNA models have the same
+pattern, the relevant locations can be computed for generic DNA
+sequences up to a given length, which covers all sequences involved in
+the present computation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>maxSequenceLength</strong> (<em>integer</em>) – Maximum number of sequences to be expected for given sequence list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel._cgDNAModel__setup_transformation_matrices">
+<code class="sig-name descname">_cgDNAModel__setup_transformation_matrices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel._cgDNAModel__setup_transformation_matrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assembles transformation matrix for the computation of
+complementary monomers and dimers. The idea behind the
+transformation is that specific dimer/monomer groups have the
+same physical properties, leading to (almost) equal parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id11">
+<code class="sig-name descname">assemble_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sequence</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assembly of the cgDNA model for a given sequence</p>
+<p>This function provides the core routine for the assembly of a cgDNA
+model. Given a sequence, it builds the global sigma vector and
+stiffness matrix from the pre-computed index patterns. The assembly
+routine relies on the superposition of monomer and dimer blocks, whose
+index ranges have been pre-computed. The resulting model matrix is
+sparse and returned in csc format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sequence</strong> (<em>List of Strings</em>) – DNA sequence to assemble model for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>modelMatrix</strong> (<em>scipy sparse csc matrix object</em>) – Sparse representation of the global cgDNA stiffness matrix</p></li>
+<li><p><strong>sigmaVector</strong> (<em>1D numpy float array</em>) – Global cgDNA sigma vector</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="cgdna_model.cgDNAModel.check_postitive_definiteness">
+<code class="sig-name descname">check_postitive_definiteness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cgdna_model.cgDNAModel.check_postitive_definiteness" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Checks if the given parameter set is “postive definite”. This is</dt><dd><p>necessary for the set to be a valid candidate. The below criteria
+are sufficient.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Boolean for check result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id12">
+<code class="sig-name descname">get_parameter_arrays</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameter arrays</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Four lists of arrays for monomer and dimer parameters</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Lists of 1/2D numpy float arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id13">
+<code class="sig-name descname">get_parameter_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameter vector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Reduced parameter vector</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>1D numpy float array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id14">
+<code class="sig-name descname">update_from_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em>, <em class="sig-param"><span class="n">mode</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id14" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads cgDNA data structures from file and converts to vector</p>
+<p>Depending on the mode, the arrays are filled from cgDNA-optimized or
+proposal data (can also be the same). An independent group of monomers
+and dimers (one half of the symmetric matrices) is reduced to a
+parameter vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>IOHandler</strong> (<em>IOHandler class obect</em>) – </p></li>
+<li><p><strong>mode</strong> (<em>string</em>) – Controls file to read from, can be “proposal” or “cgdna”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id15">
+<code class="sig-name descname">update_from_vector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id15" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates cgDNA data structures from a vector</p>
+<p>All matrices are reconstructed from that vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>vector</strong> (<em>1D numpy float array</em>) – Reduced cgDNA parameter vector</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="module-proposal">
+<span id="proposal"></span><h2>Proposal<a class="headerlink" href="#module-proposal" title="Permalink to this headline">¶</a></h2>
+<p>Proposal Generator for uq4cgDNA</p>
+<p>This module contains proposal distributions for the cgDNA model. Objects of
+the below classes can generate candidates of cgDNA parameter sets for an MCMC
+algorithm. The model is planned to contain a variety of proposal algorithms
+for different use cases. The proposal has a two-fold function within an MCMC
+algorithm. Firstly it generates new sample candidates given a current one.
+Secondly, it assess their probability via a conditional pdf w.r.t to the last
+candidate.</p>
+<dl class="simple">
+<dt>Currently implemented:</dt><dd><ul class="simple">
+<li><p>Preconditioned Crank-Nicolson Randowm Walk</p></li>
+</ul>
+</dd>
+</dl>
+<p>Author Sebastian Krumscheidt, Maximilian Kruse
+Date 09.07.2020</p>
+<dl class="py class">
+<dt id="proposal.pCNProposal">
+<em class="property">class </em><code class="sig-prename descclassname">proposal.</code><code class="sig-name descname">pCNProposal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">covMatrix</span></em>, <em class="sig-param"><span class="n">invCovMatrix</span></em>, <em class="sig-param"><span class="n">cnParameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#proposal.pCNProposal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Proposal class implementing preconditioned Crank-Nicolson Random Walk</p>
+<p>This class generates pCN proposals. It can be initialized with a default
+identity covariance matrix or a matrix read from an external file. These
+construction alternatives are realized via factory methods. Moreover, the
+class provides the functionality for computing conditional probabilities.</p>
+<p>The pCN procedure creates samples as:</p>
+<blockquote>
+<div><p>X_n+1 = sqrt(1-beta^2)*X_n + beta*Xi</p>
+</div></blockquote>
+<p>With beta as tuning parameter and Xi ~ N(0,covMatrix)</p>
+<dl class="py attribute">
+<dt id="proposal.pCNProposal.covMatrix">
+<code class="sig-name descname">covMatrix</code><a class="headerlink" href="#proposal.pCNProposal.covMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covariance matrix for the generation of gaussian random vectors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>2D numpy float array or numpy sparse csc matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="proposal.pCNProposal.invCovMatrix">
+<code class="sig-name descname">invCovMatrix</code><a class="headerlink" href="#proposal.pCNProposal.invCovMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse covariance matrix for the efficient computation of conditional
+probabilities</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>2D numpy float array or numpy sparse csc matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="proposal.pCNProposal.cnParameter">
+<code class="sig-name descname">cnParameter</code><a class="headerlink" href="#proposal.pCNProposal.cnParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tuning parameter of the algorithm in range (0,1)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="proposal.pCNProposal.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">covMatrix</span></em>, <em class="sig-param"><span class="n">invCovMatrix</span></em>, <em class="sig-param"><span class="n">cnParameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#proposal.pCNProposal.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construtor (to be called by factory methods)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="proposal.pCNProposal.from_identity_cov">
+<code class="sig-name descname">from_identity_cov</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cnParameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#proposal.pCNProposal.from_identity_cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory method for creation with identity covariance matrix</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="proposal.pCNProposal.from_file_cov">
+<code class="sig-name descname">from_file_cov</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cnParameter</span></em>, <em class="sig-param"><span class="n">IOHandler</span></em><span class="sig-paren">)</span><a class="headerlink" href="#proposal.pCNProposal.from_file_cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory method for creation with custom covariance matrix</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="proposal.pCNProposal.generate">
+<code class="sig-name descname">generate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">candidate</span></em><span class="sig-paren">)</span><a class="headerlink" href="#proposal.pCNProposal.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates new candidate for MCMC</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="proposal.pCNProposal.compute_conditional_probability">
+<code class="sig-name descname">compute_conditional_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">targetVector</span></em>, <em class="sig-param"><span class="n">givenVector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#proposal.pCNProposal.compute_conditional_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes conditional probability for candidate comparison in MCMC</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="proposal.pCNProposal.get_covariance_matrices">
+<code class="sig-name descname">get_covariance_matrices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#proposal.pCNProposal.get_covariance_matrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reutrns covariance matrix and inverse</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id16">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">covMatrix</span></em>, <em class="sig-param"><span class="n">invCovMatrix</span></em>, <em class="sig-param"><span class="n">cnParameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor</p>
+<p>Sets the (inverse) covariance and tuning parameter internally.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>covMatrix</strong> (<em>numpy array</em><em> or </em><em>sparse matrix</em>) – Covariance matrix for the generation of gaussian random vectors</p></li>
+<li><p><strong>invCovMatrix</strong> (<em>numpy array</em><em> or </em><em>sparse matrix</em>) – Inverse covariance matrix for the efficient computation of
+conditional probabilities</p></li>
+<li><p><strong>cnParameter</strong> (<em>float</em>) – Tuning parameter of the algorithm in range (0,1)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Checks if tuning parameter is in proper range</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="proposal.pCNProposal.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#proposal.pCNProposal.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id17">
+<code class="sig-name descname">compute_conditional_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">targetVector</span></em>, <em class="sig-param"><span class="n">givenVector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute conitional probability of targetVector given givenVector</p>
+<p>The conditional distribution describes a Gaussian of fixed variance
+cnParameter * covMatrix and a mean value given by
+sqrt(1-cnParameter^2)*givenVector. Note that the resulting value is
+NOT normalized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>targetVector</strong> (<em>1D numpy float array</em>) – Vector to compute probability for</p></li>
+<li><p><strong>givenVector</strong> (<em>1D numpy float array</em>) – Vector on which probability depends</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>condProb</strong> – Conditional probability</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Checks if calculated probability is too low to ensure viable
+    further computations</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id18">
+<em class="property">classmethod </em><code class="sig-name descname">from_file_cov</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em>, <em class="sig-param"><span class="n">cnParameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory Method for generation of porposal with custom covariance</p>
+<p>The generation of multivariate Gaussians relies on the preliminary
+computation of the cholesky decomposition of the covariance matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>IOHandler</strong> – IOHandler object for file reading</p></li>
+<li><p><strong>cnParameter</strong> (<em>float</em>) – Tuning parameter of the algorithm in range (0,1)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pCNProposal with custom covariance matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#proposal.pCNProposal" title="proposal.pCNProposal">pCNProposal</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id19">
+<em class="property">classmethod </em><code class="sig-name descname">from_identity_cov</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cnParameter</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id19" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Factory Method for generation of porposal with default covariance</dt><dd><p>equal to the identity matrix.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cnParameter</strong> (<em>float</em>) – Tuning parameter of the algorithm in range (0,1)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pCNProposal with identity covariance matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#proposal.pCNProposal" title="proposal.pCNProposal">pCNProposal</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id20">
+<code class="sig-name descname">generate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">candidate</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id20" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Generates new parameter set candidate from pCN random walk</dt><dd><p>procedure accoring to the relation stated above</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>candidate</strong> (<em>1D numpy float array</em>) – Previous candidate vector</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>newCandidate</strong> – Next candidate vector</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>1D numpy float array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id21">
+<code class="sig-name descname">get_covariance_matrices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id21" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets covariance matrix (Cholesky factorized) and inverse</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>2D numpy float array or Scipy sparse csc matrix</em> – Proposal covariance matrix (might be Cholesky decomposed)</p></li>
+<li><p><em>2D numpy float array or Scipy sparse csc matrix</em> – Inverse of proposal covariance matrix</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="module-posterior">
+<span id="posterior"></span><h2>Posterior<a class="headerlink" href="#module-posterior" title="Permalink to this headline">¶</a></h2>
+<p>Posterior Distribution for Bayesian estimates from uq4cgDNA</p>
+<p>This module comprises the functionalities for the computation of posterior
+probabilites in the uq4cgDNA framework. The necessary data structures are
+inferred from IOHandler and cgDNAModel objects.
+The actual computation of the posterior probability in the bayesian context
+consists of a likelihood term and a prior probability. The likelihood is
+computed as the Kullback-Leibler divergence of two gaussians characterized by
+MD and assembled cgDNA data structures, respectively. Since the computation
+is performance-critical, the corresponding routines are optimized for a minimum
+number of matrix manipulations.The prior is computed as a gaussian consisting
+of a matrix read from file and the cgDNA parameter vector.
+Given a proper initialization with IOHandler and cgDNAModel objects, objects
+of the posterior class automatically compute the posterior probability for
+any given candidate model. To create viable values for the sample
+probabilities, the exponent in the resulting formulation is normalized by the
+cumulative Kullback-Leibler divergence of the cgDNA parameterset.</p>
+<dl class="simple">
+<dt>Note: The underlying distribution funtion is NOT normalized, making it useful</dt><dd><p>only in contexts where ratios are required.</p>
+</dd>
+</dl>
+<p>Author Sebastian Krumscheidt, Maximilian Kruse
+Date 24.06.2020</p>
+<dl class="py class">
+<dt id="posterior.Posterior">
+<em class="property">class </em><code class="sig-prename descclassname">posterior.</code><code class="sig-name descname">Posterior</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em>, <em class="sig-param"><span class="n">cgDNAModel</span></em><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Posterior class for the uq4cgDNA framework.</p>
+<p>This class provides the functionalities for the Posterior module. Objects
+of this class can be utilized to generate samples in an MCMC procedure.</p>
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">MD sequence list, shapes and stifnesses</code></dt>
+<dd><p>Lists of strings and 1/2D numpy float arrays</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Prior matrix (inverse) and vector</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>1/2D numpy float arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">MD matrix determinants</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Normalization factor</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="posterior.Posterior.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em>, <em class="sig-param"><span class="n">cgDNAModel</span></em><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up object structures, computes prior inverse and MD determinants,
+compute normalization factor</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="posterior.Posterior.__compute_normalization_constant">
+<code class="sig-name descname">__compute_normalization_constant</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">candidateModel</span></em><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior.__compute_normalization_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes divergence for cgdna parameterset to use for normalization</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="posterior.Posterior.__compute_kl_divergence">
+<code class="sig-name descname">__compute_kl_divergence</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cgDNADecomposition</span></em>, <em class="sig-param"><span class="n">cgDNAVector</span></em>, <em class="sig-param"><span class="n">MDMatrix</span></em>, <em class="sig-param"><span class="n">MDVector</span></em>, <em class="sig-param"><span class="n">MDDeterminant</span></em><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior.__compute_kl_divergence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes divergence for given candidate model and DNA sequence</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="posterior.Posterior.compute_posterior_probability">
+<code class="sig-name descname">compute_posterior_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">candidateModel</span></em><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior.compute_posterior_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>For given model, computes posterior probability from sum of divergences
+over all sequences and prior distribution</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="posterior.Posterior.get_prior_data">
+<code class="sig-name descname">get_prior_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior.get_prior_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns covariance matrix and mean vector from prior distribution</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="posterior.Posterior.get_md_determinants">
+<code class="sig-name descname">get_md_determinants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior.get_md_determinants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns determinants of MD stiffness matrices</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="posterior.Posterior.get_normalization_factor">
+<code class="sig-name descname">get_normalization_factor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior.get_normalization_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns normalization constant from Kullback-Leibler divergence with
+respect to the cgDNA parameter set</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="posterior.Posterior._Posterior__compute_kl_divergence">
+<code class="sig-name descname">_Posterior__compute_kl_divergence</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cgDNADecomposition</span></em>, <em class="sig-param"><span class="n">cgDNAVector</span></em>, <em class="sig-param"><span class="n">MDMatrix</span></em>, <em class="sig-param"><span class="n">MDVector</span></em>, <em class="sig-param"><span class="n">MDDeterminant</span></em><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior._Posterior__compute_kl_divergence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes Kullback Leibler divergence for given model and sequence</p>
+<p>The computation of the Kullback Leibler divergence is the most
+computationally expensive operation in the uq4cgDNA framework, since
+it is called for every parameter set and every MD sequence. The
+computation mainly relies on precomputed quantities to optimize its
+efficiency.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cgDNADecomposition</strong> (<em>Scipy SuperLU object</em>) – Sparse LU-decomposition of the global cgDNA stiffness matrix</p></li>
+<li><p><strong>cgDNAVector</strong> (<em>1D numpy float array</em>) – global cgDNA shape vector</p></li>
+<li><p><strong>MDMatrix</strong> (<em>Scipy csc matrix object</em>) – Sparse representation of MD matrix</p></li>
+<li><p><strong>MDVector</strong> (<em>1D numpy float array</em>) – MD Vector</p></li>
+<li><p><strong>MDDeterminant</strong> (<em>float</em>) – Determinant of the current MD matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Kullback Leibler divergence</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="posterior.Posterior._Posterior__compute_normalization_constant">
+<code class="sig-name descname">_Posterior__compute_normalization_constant</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">candidateModel</span></em><span class="sig-paren">)</span><a class="headerlink" href="#posterior.Posterior._Posterior__compute_normalization_constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes normalization constant for posterior</p>
+<p>To generate viable posterior probabilites, the exponential of the
+probability function is normalized by the accumulated divergence from
+the optimal cgDNA parameter set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>candidateModel</strong> (<em>cgDNAModel class object</em>) – Holds optimal parameter set</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>normFactor</strong> – Normalization factor for kl divergence</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id22">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em>, <em class="sig-param"><span class="n">cgDNAModel</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor</p>
+<p>The constructor initializes all the data structures necessary for the
+computation of the Kullback Leibler divergence and the prior term.
+Note that the cgDNA model utilized as input has to contain the
+parameter set obtained from the cgDNA optimization procedure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>IOHandler</strong> (<em>IOHandler class object</em>) – </p></li>
+<li><p><strong>cgDNAModel</strong> (<em>cgDNAModel class object</em>) – Holds optimal parameter set</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="posterior.Posterior.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#posterior.Posterior.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id23">
+<code class="sig-name descname">compute_posterior_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">candidateModel</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id23" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes Posterior probability</p>
+<p>The posterior probability is formed from a likelihood function
+generated from the exponential of the acccumulated KL-divergence over
+all sequences and a Gaussian prior. The exponential is normalized
+(see ‘__compute_normalization_constant’). Note that the overall pdf is
+NOT normalized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>candidateModel</strong> (<em>cgDNAModel class object</em>) – Current candidate model to compute divergence for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Posterior probability</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id24">
+<code class="sig-name descname">get_md_determinants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id24" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns determinants of MD stiffness matrices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Determinant values</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id25">
+<code class="sig-name descname">get_normalization_factor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id25" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns normalization factor for Kullback-Leibler divergence</p>
+<p>To obtain feasible values, the Kullback-Leibler divergence is
+normalized by its value with respect to the cgDNA parameter set
+(also see above)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Value of normalization constant</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id26">
+<code class="sig-name descname">get_prior_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id26" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns covariance matrix and mean vector of prior distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>2D float array</em> – Prior covariance matrix</p></li>
+<li><p><em>1D float array</em> – Prior mean vector</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="module-mcmc">
+<span id="mcmcsampler"></span><h2>MCMCSampler<a class="headerlink" href="#module-mcmc" title="Permalink to this headline">¶</a></h2>
+<p>MCMC Sampler for uq4cgDNA</p>
+<p>This module provides a Markov Chain Monte Carlo algorithm for the uq4cgDNA
+framework. More precisely, it performs a Metropolis-Hastings algorithm for the
+generation of samples from the Bayesian inference model.
+It relies on all classes within the framework and constitutes their combination
+to create samples for the Bayesian cgDNA UQ framework. The MCMCSampler class
+takes various settings for customization, including:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Burn-in period</p></li>
+<li><p>Mean batch convergence check</p></li>
+<li><p>Acceptance statistics</p></li>
+</ul>
+</div></blockquote>
+<p>Author Sebastian Krumscheidt, Maximilian Kruse
+Date 09.07.2020</p>
+<dl class="py class">
+<dt id="mcmc.MCMCSampler">
+<em class="property">class </em><code class="sig-prename descclassname">mcmc.</code><code class="sig-name descname">MCMCSampler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">cgDNAModel</span></em>, <em class="sig-param"><span class="n">Posterior</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>MCMCSampler class for the uq4cgDNA framework.</p>
+<p>This class provides the functionalities for the mcmc module. Its core is
+a Metropolis-Hastings algorithm performed until the desired number of
+samples is generated. The necessary probabilities are computed by the other
+classes of the framework.</p>
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Settings for computation of statistics</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of integers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Old and new candidate vectors</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>1D numpy float arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Old and new posterior probabilities</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">Sample counters</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>integers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">mean batch difference</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">mean batch accumulation vectors</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>1D numpy float arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">cgDNAModel</span></em>, <em class="sig-param"><span class="n">Posterior</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in settings, sets up initial candidate</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler.__compute_acceptance_probability">
+<code class="sig-name descname">__compute_acceptance_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cgDNAModel</span></em>, <em class="sig-param"><span class="n">Proposal</span></em>, <em class="sig-param"><span class="n">Posterior</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler.__compute_acceptance_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes acceptance probability of new candidate</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler.__update">
+<code class="sig-name descname">__update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler.__update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates data structures (in case candidate is accepted)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler.__compute_statistics">
+<code class="sig-name descname">__compute_statistics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler.__compute_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks ratio of positive definite and accepted candidates</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler.__compute_batch_diff">
+<code class="sig-name descname">__compute_batch_diff</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler.__compute_batch_diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the difference between consecutive batch means</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler.__print_output">
+<code class="sig-name descname">__print_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler.__print_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints information to screen and log file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metropolis-Hastings algorithm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler.get_status">
+<code class="sig-name descname">get_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler.get_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns current candidate and posterior probability</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler._MCMCSampler__compute_acceptance_probability">
+<code class="sig-name descname">_MCMCSampler__compute_acceptance_probability</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cgDNAModel</span></em>, <em class="sig-param"><span class="n">Proposal</span></em>, <em class="sig-param"><span class="n">Posterior</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler._MCMCSampler__compute_acceptance_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes Metropolis-Hastings acceptance probability</p>
+<p>The acceptance probability is computed from the ratios of proposal and
+posterior probabilities for the current and proposed candidate. The
+computation via ratios eliminates the necessities for the (impossible)
+computation of normalization factors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cgDNAModel</strong> (<em>cgDNAModel class</em>) – Utilized cgDNA model</p></li>
+<li><p><strong>Proposal</strong> (<em>Proposal class</em>) – Proposal distribution to compute probabilities from</p></li>
+<li><p><strong>Posterior</strong> (<em>Posterior class</em>) – Posterior distribution (target)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>acceptanceProbability</strong> – Acceptance probability for proposed candidate</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler._MCMCSampler__compute_batch_diff">
+<code class="sig-name descname">_MCMCSampler__compute_batch_diff</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler._MCMCSampler__compute_batch_diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the difference in the sample mean for succeding batches.
+Batch mean difference can be used to assess convergence.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler._MCMCSampler__compute_statistics">
+<code class="sig-name descname">_MCMCSampler__compute_statistics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler._MCMCSampler__compute_statistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute statistics for output</p>
+<ol class="arabic simple">
+<li><p>Portion of samples that are accepted</p></li>
+<li><p>Portion of samples that are positive definite</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler._MCMCSampler__print_output">
+<code class="sig-name descname">_MCMCSampler__print_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler._MCMCSampler__print_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print output to screen and log file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mcmc.MCMCSampler._MCMCSampler__update">
+<code class="sig-name descname">_MCMCSampler__update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcmc.MCMCSampler._MCMCSampler__update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update chain if candidate is accepted. This includes the storage of
+the sample vector and posterior probability along with the update of
+the sampling statistics measures.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id27">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span></em>, <em class="sig-param"><span class="n">cgDNAModel</span></em>, <em class="sig-param"><span class="n">Posterior</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id27" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<em>dict</em>) – User settings for MCMC sampler</p></li>
+<li><p><strong>cgDNAModel</strong> (<em>cgDNAModel class</em>) – Utilized model to sample from</p></li>
+<li><p><strong>Posterior</strong> (<em>Posterior class</em>) – Object for computation of initial target distribution value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>KeyError</strong> – Checks validity of user input</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="mcmc.MCMCSampler.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#mcmc.MCMCSampler.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id28">
+<code class="sig-name descname">get_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id28" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Returns current/initial status, meaning model candidate vector and</dt><dd><p>corresponding posterior probability</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>1D numpy float array</em> – Candidate vector</p></li>
+<li><p><em>float</em> – Posterior probability corresponding to candidate</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id29">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">IOHandler</span></em>, <em class="sig-param"><span class="n">cgDNAModel</span></em>, <em class="sig-param"><span class="n">Proposal</span></em>, <em class="sig-param"><span class="n">Posterior</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id29" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metropolis-Hastings Solver Loop</p>
+<p>Performs sampling according to MH-algorithm, invokes computation of
+corresponding statistics, calls IOHandler for logging and output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>IOHandler</strong> (<em>IOHandler class</em>) – Utilized IOHandler class</p></li>
+<li><p><strong>cgDNAModel</strong> (<em>cgDNAModel class</em>) – Utilized cgDNA model</p></li>
+<li><p><strong>Proposal</strong> (<em>Proposal class</em>) – Utilized proposal distribution</p></li>
+<li><p><strong>Posterior</strong> (<em>Posterior class</em>) – Utilized posterior distribution</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="module-test">
+<span id="testing"></span><h2>Testing<a class="headerlink" href="#module-test" title="Permalink to this headline">¶</a></h2>
+<p>Test file of the uq4cgDNA Framework</p>
+<p>This module contains the testing framework for the uq4cgDNA package. The test
+automatization relies on the built-in “unittest” module, which facilitates a
+test organisation in classes = TestCases. In here, the test cases have been
+written in accordance to the corresponding package modules, namely IOHandler,
+cgDNAModel, Proposal, Posterior and MCMCSampler. Thus the setup does not
+distinguish between unit and regression tests, but rather relies on the
+structure of the underlying software package.
+Please note that this is NOT a complete test suite aiming for full code
+coverage. It is rather a collection of intermediate results that can be used
+for comprehension when modifying or extending the program. Extensions of the
+test code are of course highly welcome.
+To run the test, simply execute this file with a python interpreter. Single
+tests or test cases can be run by adding the corresponding names to the ‘argv’
+list at the bottom of this file.</p>
+<dl class="simple">
+<dt>IMPORTANT: Please be extremely careful when modifying the underlying data in</dt><dd><p>the ‘TestData’ directory. Changes in this data might corrupt
+multiple tests.</p>
+</dd>
+</dl>
+<p>Author Sebastian Krumscheidt, Maximilian Kruse
+Date 17.08.2020</p>
+<dl class="py class">
+<dt id="test.TestIOHandler">
+<em class="property">class </em><code class="sig-prename descclassname">test.</code><code class="sig-name descname">TestIOHandler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#test.TestIOHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>IOHandler Test Case</p>
+<dl class="simple">
+<dt>test_encoding_read()</dt><dd><p>Tests if Monomer/Dimer encoding is read in correctly</p>
+</dd>
+<dt>test_md_read()</dt><dd><p>Tests if MD sequance lists, shapes and stiffnesses are read correctly</p>
+</dd>
+<dt>test_cgdna_read()</dt><dd><p>Tests if cgDNA parameter vectors and matrices are read in correctly</p>
+</dd>
+<dt>test_matrix_read()</dt><dd><p>Tests if prior and proposal matrices are read in correctly</p>
+</dd>
+<dt>test_info_read()</dt><dd><p>Tests if MD sequence information is read in correctly</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="test.TestIOHandler.setUpClass">
+<em class="property">classmethod </em><code class="sig-name descname">setUpClass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestIOHandler.setUpClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialze IOHandler for tests</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestIOHandler.test_cgdna_read">
+<code class="sig-name descname">test_cgdna_read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestIOHandler.test_cgdna_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests reading of cgDNA parameter vectors and matrices</p>
+<p>The data as read from file is compared to samples entered by hand.
+The arrays are elaborated from single entries and their norms
+computed in Matlab.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestIOHandler.test_encoding_read">
+<code class="sig-name descname">test_encoding_read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestIOHandler.test_encoding_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests reading of monomer/dimer encoding</p>
+<p>Read lists are compared to encoding entered by hand.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestIOHandler.test_info_read">
+<code class="sig-name descname">test_info_read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestIOHandler.test_info_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests reading of MD sequence information</p>
+<p>The length of the test sequences is well-known, making the comparison
+trivial</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestIOHandler.test_matrix_read">
+<code class="sig-name descname">test_matrix_read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestIOHandler.test_matrix_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests reading of dense prior and proposal matrices</p>
+<p>The data as read from file is compared to samples entered by hand.
+The matrices are elaborated from single entries and their norms
+computed in matlab.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestIOHandler.test_md_read">
+<code class="sig-name descname">test_md_read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestIOHandler.test_md_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests reading of MD sequence lists, shapes and stiffnesses</p>
+<p>The data as read from file is compared to samples entered by hand.
+Three sequence lists are entered by hand. Additionally, shape and
+stiffness arrays are elaborated from single entries and their norms
+computed in matlab.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="test.TestMCMCSampler">
+<em class="property">class </em><code class="sig-prename descclassname">test.</code><code class="sig-name descname">TestMCMCSampler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#test.TestMCMCSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>MCMCSampler Test Case</p>
+<dl class="simple">
+<dt>test_setup()</dt><dd><p>Tests correct initialization of data structures</p>
+</dd>
+<dt>test_run()</dt><dd><p>Tests the overall MCMC algorithm and resulting output files</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="test.TestMCMCSampler.setUpClass">
+<em class="property">classmethod </em><code class="sig-name descname">setUpClass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestMCMCSampler.setUpClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize IOHandler, cgDNAModel, Proposal, Posterior and Sampler
+for testing</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestMCMCSampler.tearDown">
+<code class="sig-name descname">tearDown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestMCMCSampler.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove potential left-over files</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestMCMCSampler.test_run">
+<code class="sig-name descname">test_run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestMCMCSampler.test_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests the overall MCMC algorithm and resulting output files</p>
+<p>This test can be seen as a regression test for the whole
+implementation. In the future the outcome of this test should be
+compared to benchmark results. As of now, the resulting output file
+is check w.r.t. whether it contains the expected number of samples.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestMCMCSampler.test_setup">
+<code class="sig-name descname">test_setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestMCMCSampler.test_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests correct initialization of data structures</p>
+<p>The initial candidate vector and its posterior probability are compared
+to data directly loaded from file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="test.TestPosterior">
+<em class="property">class </em><code class="sig-prename descclassname">test.</code><code class="sig-name descname">TestPosterior</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#test.TestPosterior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Posterior Test Case</p>
+<dl class="simple">
+<dt>test_setup()</dt><dd><p>Tests if relevant data structures are initialized correctly</p>
+</dd>
+<dt>test_posterior_probability()</dt><dd><p>Tests posterior probability computation for trivial use case</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="test.TestPosterior.setUpClass">
+<em class="property">classmethod </em><code class="sig-name descname">setUpClass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestPosterior.setUpClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize IOHandler, cgDNAModel and Posterior for testing</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestPosterior.test_posterior_probability">
+<code class="sig-name descname">test_posterior_probability</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestPosterior.test_posterior_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests posterior probability computation for trivial use case</p>
+<p>The computation is tested for the trivial case of the initial cgDNA
+parameterset. Thus the test is not a guarantee for the correctness
+of the algorithm and more elaborate test cases should be added in the
+future.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestPosterior.test_setup">
+<code class="sig-name descname">test_setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestPosterior.test_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if relevant data structures are initialized correctly</p>
+<p>The prior covariance and vector, as well as the MD stiffness matrix
+determinants are compared to data directly read from file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="test.TestProposal">
+<em class="property">class </em><code class="sig-prename descclassname">test.</code><code class="sig-name descname">TestProposal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#test.TestProposal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Proposal Test Case</p>
+<dl class="simple">
+<dt>test_factories()</dt><dd><p>Tests factory generation methods and correct data initialization</p>
+</dd>
+<dt>test_candidate_generation()</dt><dd><p>Tests generation of new sample candidates</p>
+</dd>
+<dt>test_proposal_probability()</dt><dd><p>Tests computation of conditional probability for candidates</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="test.TestProposal.setUpClass">
+<em class="property">classmethod </em><code class="sig-name descname">setUpClass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestProposal.setUpClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup IOHandler, cgDNAModel, cn-parameter and proposal for testing
+Initialize (inverse) covariance matrix for comparison</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestProposal.test_candidate_generation">
+<code class="sig-name descname">test_candidate_generation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestProposal.test_candidate_generation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests generation of model candidate</p>
+<p>The new candidate is solely tested with respect to its shape. Thus
+this test is not a gurantee for the correctness of the algorithm and
+more elaborate test cases should be deployed in the future.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestProposal.test_factories">
+<code class="sig-name descname">test_factories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestProposal.test_factories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests factory generation methods and correct data initialization</p>
+<p>The proposal covariance (in form of a Cholesky decomposition) and its
+inverse are compared to data directly loaded from file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestProposal.test_proposal_probability">
+<code class="sig-name descname">test_proposal_probability</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestProposal.test_proposal_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests computation of conditional proposal probability</p>
+<p>The probabilities are tested only regarding the feasible interval[0,1],
+since benchmark values are not available.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="test.TestcgDNAModel">
+<em class="property">class </em><code class="sig-prename descclassname">test.</code><code class="sig-name descname">TestcgDNAModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#test.TestcgDNAModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>cgDNAModel Test Case</p>
+<dl class="simple">
+<dt>test_update()</dt><dd><p>Tests if model is correctly updated from file and vector</p>
+</dd>
+<dt>test_pd_check()</dt><dd><p>Tests if positive definiteness check works on cgDNA parameterset</p>
+</dd>
+<dt>test_assembly()</dt><dd><p>Tests assembly of global model stiffness matrix and shape vector</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="test.TestcgDNAModel.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestcgDNAModel.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialze cgDNAModels for tests</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestcgDNAModel.setUpClass">
+<em class="property">classmethod </em><code class="sig-name descname">setUpClass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestcgDNAModel.setUpClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialze IOHandler for tests</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestcgDNAModel.test_assembly">
+<code class="sig-name descname">test_assembly</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestcgDNAModel.test_assembly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests assembly of global model stiffness matrix and shape vector</p>
+<p>The assembly is performed on a given test sequence and the result is
+compared to the output of the original cgDNA code implemented in
+Matlab.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestcgDNAModel.test_pd_check">
+<code class="sig-name descname">test_pd_check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestcgDNAModel.test_pd_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if positive definiteness check works on cgDNA parameterset</p>
+<p>Note that this is not a general guarantee for the correctness of the
+implementation. Further dcases with known result should be added in
+the future.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="test.TestcgDNAModel.test_update">
+<code class="sig-name descname">test_update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test.TestcgDNAModel.test_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if model is correctly updated from file and vector</p>
+<p>The test is conducted by converting the structures back and forth
+between full and reduced form and comparing the results.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sebastian Krumscheidt, Maximilian Kruse
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

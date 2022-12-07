@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; uq4cgDNA  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Theory" href="theory.html" />
+    <link rel="prev" title="uq4cgDNA Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> uq4cgDNA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements-and-installation">Requirements and Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#structure-of-the-repository">Structure of the Repository</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theory.html">Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">uq4cgDNA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>uq4cgDNA is a small Python package for uncertainty quantification in the
+<a class="reference external" href="https://lcvmwww.epfl.ch/research/cgDNA/">cgDNA</a>  framework. cgDNA (<em>coarse-grained DNA</em>)
+denotes a simplified approach to the modeling of the mechanical properties of DNA sequences,
+such as shape and stiffness. The underlying theory relies on the interpretation of DNA as
+a bichain of rigid bodies. Such a model can be characterized by a reduced set of
+parameters that can be inferred from molecular dynamics simulations.</p>
+<p>The goal of this software package is the quantification of the robustness of the cgDNA model.
+It thereby relies on a ‘ <a class="reference external" href="https://en.wikipedia.org/wiki/Bayesian_inference">Bayesian</a>
+problem formulation for the deduction of a probability distribution and corresponding
+metrics of the model parametrization given the MD data. Due to the complex internals of the
+approach, such a distribution function is not available in closed form. Thus uq4cgDNA
+includes a sampling procedure via the  <a class="reference external" href="https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm">Metropolis-Hastings algorithm</a>
+from the class of <em>Markov-Chain Monte Carlo</em> sampling algorithms. Due to the high
+dimensionality of the considered variables, the MH algorithm utilizes dimension-independent
+proposal generators (currently the  <a class="reference external" href="https://en.wikipedia.org/wiki/Preconditioned_Crank%E2%80%93Nicolson_algorithm">Preconditioned Crank-Nicholson Random Walk</a>).</p>
+<hr class="docutils" />
+<div class="section" id="requirements-and-installation">
+<h2>Requirements and Installation<a class="headerlink" href="#requirements-and-installation" title="Permalink to this headline">¶</a></h2>
+<p>uq4cgDNA is designed with a minimal collection of computational tools. Next to Python itself,
+the package solely relies on the established <a class="reference external" href="https://numpy.org/">Numpy</a> and
+<a class="reference external" href="https://www.scipy.org/">Scipy</a> libraries.</p>
+<div class="admonition-the-implementation-has-been-tested-with-the-following-configurations admonition">
+<p class="admonition-title">The implementation has been tested with the following configurations</p>
+<ul class="simple">
+<li><p>Windows 10, Python 3.7.7, Numpy 1.18.5, Scipy 1.5.0</p></li>
+<li><p>Ubuntu 20.04, Python 3.8.2, Numpy 1.18.4, Scipy 1.4.1</p></li>
+</ul>
+</div>
+<p>For execution on windows, it is recommended to use a virtual environment and package manager
+like <a class="reference external" href="https://www.anaconda.com/products/individual">Anaconda</a>. In the case of Ubuntu,
+the necessary packages are already integrated into the initial setup of the operating system.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The <a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a> documentation tools
+(version 3.1.1) has been utilized to generate this documentation. Additionally,
+the <a class="reference external" href="https://www.sphinx-doc.org/en/master/">Read the Docs</a> theme has been used.</p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="structure-of-the-repository">
+<h2>Structure of the Repository<a class="headerlink" href="#structure-of-the-repository" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">data:</span></code> MD and cgDNA data to be used for computation, txt format</p>
+<p><code class="docutils literal notranslate"><span class="pre">doc:</span></code> General and class documentation files</p>
+<p><code class="docutils literal notranslate"><span class="pre">test:</span></code> Unittest implementations with own data</p>
+<p><code class="docutils literal notranslate"><span class="pre">uq4cgDNA:</span></code> Main package</p>
+<p><code class="docutils literal notranslate"><span class="pre">README.md:</span></code> Introductory file containing main content of the documentation</p>
+<p><code class="docutils literal notranslate"><span class="pre">main.py</span></code>: Examplary application of the package</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="theory.html" class="btn btn-neutral float-right" title="Theory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="uq4cgDNA Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sebastian Krumscheidt, Maximilian Kruse
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
