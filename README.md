@@ -1,5 +1,3 @@
-![UQ Chair logo](doc/logo_uq.svg)
-
 # **UQ4cgDNA-Python**
 
 uq4cgDNA is a small Python package for uncertainty quantification in the [cgDNA](https://lcvmwww.epfl.ch/research/cgDNA/)  framework. cgDNA (_coarse-grained DNA_) denotes a simplified approach to the modeling of the mechanical properties of DNA sequences, such as shape and stiffness. The underlying theory relies on the interpretation of DNA as a bichain of rigid bodies. Such a model can be characterized by a reduced set of parameters that can be inferred from molecular dynamics simulations.
